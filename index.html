@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Level Up – Habit Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- SETUP -->
+<div id="setup" class="hide">
+  <div class="wrap" style="max-width:460px;padding-top:8vh">
+    <div class="card" style="padding:26px 22px">
+      <div class="center" style="margin-bottom:18px">
+        <span class="tag">30 DAY HABIT TRACKER</span>
+        <h1 style="color:var(--acc);font-size:clamp(28px,8vw,40px);font-weight:800;margin:6px 0">DAILY LEVEL UP</h1>
+        <p class="mute">Build 10 habits in 30 days</p>
+      </div>
+      <div class="grid">
+        <div><label class="lbl" for="sName">YOUR NAME</label><input id="sName" placeholder="Enter your name"></div>
+        <div><label class="lbl" for="sDate">CHOOSE YOUR START DATE</label><input id="sDate" type="date"></div>
+        <p class="mute center" id="sRange"></p>
+        <button class="btn full" id="sGo">START 30 DAYS 🔥</button>
+        <p class="mute center" style="font-size:11px">Your information is saved only in this browser.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" class="hide">
+  <div class="hero"><small>30 DAY HABIT TRACKER</small><h1>DAILY LEVEL UP</h1><p>DISCIPLINE TODAY = RESULTS TOMORROW</p></div>
+  <div class="wrap">
+    <div class="card row">
+      <div><span class="tag">LEVELING UP</span><div class="big" style="color:var(--acc);font-size:22px" id="pName"></div></div>
+      <div class="row">
+        <button class="btn ghost sm" id="editHabits">✎ EDIT HABITS</button>
+        <button class="btn ghost sm" id="openSet">⚙ SETTINGS</button>
+      </div>
+    </div>
+
+    <div class="grid g2" style="margin-top:14px">
+      <div class="card pbar" style="margin:0">
+        <span class="tag">30 DAY TRACKING PERIOD</span>
+        <div><b id="period" style="font-size:14px"></b></div>
+      </div>
+      <div class="card" style="margin:0">
+        <div class="row"><div><span class="tag" id="curLbl">CURRENT DAY</span><div class="big" id="curDay"></div></div><div class="big" style="color:var(--acc)" id="pct"></div></div>
+        <div class="bar" style="margin:8px 0 6px"><i id="fill" style="background:var(--acc);width:0"></i></div>
+        <div class="row mute"><span id="doneTxt"></span><span id="leftTxt"></span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="row"><h2>HABITS / DAYS</h2><span class="mute">Tap a circle to tick a habit. Future days are locked.</span></div>
+      <div class="scroll" id="scroll"><table id="grid"></table></div>
+    </div>
+
+    <div class="card row">
+      <button class="btn ghost sm" id="wPrev">◄ PREV WEEK</button>
+      <div class="center"><span class="tag">SHOWING</span><div><b id="wLabel"></b></div></div>
+      <button class="btn ghost sm" id="wNext">NEXT WEEK ►</button>
+    </div>
+
+    <div class="cols">
+      <div class="card" style="margin-top:0"><h2>🎯 THIS WEEK</h2><div id="weekList"></div></div>
+      <div class="card" style="margin-top:0"><h2>🌙 SLEEP OVERVIEW</h2>
+        <div class="row" style="margin-top:10px"><div><span class="mute">Avg. sleep</span><div class="big" id="avgSleep"></div></div><div style="text-align:right"><span class="mute">Best sleep</span><div class="big" id="bestSleep"></div></div></div>
+        <div class="chart" id="chart"></div><div class="xl" id="xl"></div>
+      </div>
+      <div class="card" style="margin-top:0"><h2>🔥 STREAKS</h2><div id="streaks"></div></div>
+      <div class="card" style="margin-top:0"><h2>🏆 ACHIEVEMENTS</h2><ul id="ach"></ul></div>
+    </div>
+
+    <div class="card"><h2>📝 NOTES</h2><textarea id="notes" style="margin-top:10px" placeholder="Write your goals, wins and reminders…"></textarea></div>
+
+    <div class="center" style="margin-top:26px">
+      <button class="btn danger" id="reset">⚠ RESET ALL 30 DAYS</button>
+      <p class="mute" style="margin-top:8px;font-size:11px">Delete all habit ticks, sleep data and notes</p>
+    </div>
+    <div class="center" style="margin-top:34px"><b style="color:var(--acc);letter-spacing:.15em">DAILY LEVEL UP</b><p class="mute" style="font-size:10px;letter-spacing:.2em">SMALL STEPS EVERY DAY LEAD TO BIG RESULTS</p></div>
+  </div>
+</div>
+
+<!-- EDIT HABITS -->
+<div class="modal" id="habModal"><div class="box">
+  <h3>Edit your 10 habits</h3>
+  <p class="mute">Change the icon, name or colour. Your ticks are kept.</p>
+  <div id="habForm"></div>
+  <div class="grid g2" style="margin-top:16px"><button class="btn ghost" id="habCancel">Cancel</button><button class="btn" id="habSave">Save habits</button></div>
+</div></div>
+
+<!-- SETTINGS -->
+<div class="modal" id="setModal"><div class="box">
+  <h3>Settings</h3>
+  <div class="grid">
+    <div><label class="lbl" for="eName">YOUR NAME</label><input id="eName"></div>
+    <button class="btn" id="saveProf">Save name</button>
+    <hr style="border:0;border-top:1px solid var(--line)">
+    <div><label class="lbl" for="eDate">CHANGE START DATE</label><input id="eDate" type="date"></div>
+    <p class="mute" id="eRange"></p>
+    <button class="btn ghost" id="chgDate">Change Start Date</button>
+    <button class="btn ghost" id="closeSet" style="border-color:var(--line);color:var(--mute)">Close</button>
+  </div>
+</div></div>
+
+<!-- CONFIRM -->
+<div class="modal" id="confModal" style="z-index:30"><div class="box center">
+  <h3 id="confTitle"></h3>
+  <p id="confMsg" style="margin-bottom:18px;font-size:14px;line-height:1.5"></p>
+  <div class="grid g2"><button class="btn ghost" id="confNo">Cancel</button><button class="btn" id="confYes">Continue</button></div>
+</div></div>
+
+<script src="script.js"></script>
+</body>
+</html>
